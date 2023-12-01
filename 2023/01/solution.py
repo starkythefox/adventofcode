@@ -40,8 +40,6 @@ def parse(input_str: str) -> int:
         while j < len(input_str) and not input_str[j].isnumeric():
             if input_str[i:j+1] in NUMBERS_IN_TEXT:
                 parsed.append(NUMBER_TRANSLATION[input_str[i:j+1]])
-                i = j
-                break
 
             j += 1
 
