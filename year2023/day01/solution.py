@@ -45,6 +45,7 @@ def parse(input_str: str) -> int:
 
         i += 1
 
+    print(input_str, parsed[0], parsed[-1], parsed)
     return int(parsed[0] + parsed[-1])
 
 
