@@ -1,5 +1,7 @@
 import sys
 
+from adventofcode.utils import utils
+
 
 GameResultPart1 = tuple[int, bool]
 GameResultPart2 = tuple[int, int, int, int]
@@ -7,12 +9,6 @@ GameResultPart2 = tuple[int, int, int, int]
 MAX_RED = 12
 MAX_GREEN = 13
 MAX_BLUE = 14
-
-def get_input(file_path: str) -> list[str]:
-    with open(file_path, 'r') as f:
-        data = f.read().splitlines()
-
-    return data
 
 
 def split_game_id_and_cube_sets(game: str) -> tuple[int, str]:
@@ -101,7 +97,7 @@ def part2(input_data: list[str]) -> None:
 
 
 def main(args: list[str]) -> None:
-    input_data = get_input(args[0])
+    input_data = utils.readlines(args[0])
 
     part1(input_data)
     part2(input_data)

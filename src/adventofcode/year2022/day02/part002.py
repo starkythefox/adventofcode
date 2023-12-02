@@ -1,6 +1,8 @@
 import sys
 from enum import Enum
 
+from adventofcode.utils import utils
+
 
 class MoveScore(Enum):
     ROCK = 1
@@ -65,7 +67,7 @@ def check_round_result(theirs: str, mine: str) -> int:
 
 
 def main(args: list[str]):
-    cheatcodes = get_input(args[0])
+    cheatcodes = utils.readlines(args[0])
     total = 0
 
     for cheatcode in cheatcodes:

@@ -1,6 +1,8 @@
 import sys
 from enum import Enum
 
+from adventofcode.utils import utils
+
 
 class MoveScore(Enum):
     ROCK = 1
@@ -21,13 +23,6 @@ class Move(Enum):
     Y = 'PAPER'
     C = 'SCISSORS'
     Z = 'SCISSORS'
-
-
-def get_input(file_path: str) -> list[str]:
-    with open(file_path, 'r') as f:
-        data = f.read().splitlines()
-
-    return data
 
 
 def get_move(move_code: str) -> str:
@@ -51,8 +46,8 @@ def check_round_result(theirs: str, mine: str) -> int:
 
 
 def main(args: list[str]) -> None:
-    cheatcodes = get_input(args[0])
-    total= 0
+    cheatcodes = utils.readlines(args[0])
+    total = 0
 
     for cheatcode in cheatcodes:
         codes = cheatcode.split(' ')

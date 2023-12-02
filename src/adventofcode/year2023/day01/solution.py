@@ -1,6 +1,7 @@
 import sys
 import functools
 
+from adventofcode.utils import utils
 
 NUMBERS_IN_TEXT = {'one', 'two', 'three', 'four', 'five', 'six', 'seven',
                    'eight', 'nine'}
@@ -17,11 +18,6 @@ NUMBER_TRANSLATION = {
     'nine': '9'
 }
 
-def get_input(file_path: str) -> list[str]:
-    with open(file_path, 'r') as f:
-        data = f.read().splitlines()
-
-    return data
 
 def parse(input_str: str) -> int:
     if len(input_str) == 0:
@@ -50,7 +46,7 @@ def parse(input_str: str) -> int:
 
 
 def main(args: list[str]) -> None:
-    input_data = get_input(args[0])
+    input_data = utils.readlines(args[0])
     numbers: list[int] = list()
 
     for line in input_data:

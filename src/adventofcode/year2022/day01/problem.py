@@ -1,11 +1,6 @@
 import sys
 
-
-def get_input(file_path: str) -> list[str]:
-    with open(file_path, 'r') as f:
-        data = f.read().splitlines()
-
-    return data
+from adventofcode.utils import utils
 
 
 def store_calories_by_each_elf(calories_list: list[str]) -> dict:
@@ -50,7 +45,7 @@ def get_top_n_elves(calories_top_list: list[str], top_n: int, elfs: dict[str, in
 
 
 def main(args: list[str]) -> None:
-    calories_list = get_input(args[0])
+    calories_list = utils.readlines(args[0])
 
     elfs = store_calories_by_each_elf(calories_list)
     calories_top_list = generate_calories_top_list(elfs)
