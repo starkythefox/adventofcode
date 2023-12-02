@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adventofcode_starkythefox"
+version = "0.0.1"
+authors = [
+  { name="starkythefox" },
+]
+requires-python = ">=3.11"
+
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Issues = "https://github.com/pypa/sampleproject/issues"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
