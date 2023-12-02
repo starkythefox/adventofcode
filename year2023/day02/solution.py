@@ -22,7 +22,7 @@ def split_game_id_and_cube_sets(game: str) -> tuple[int, str]:
     return game_id, cube_sets;
 
 
-def find_impossible_games(cube_sets: str) -> bool:
+def find_possible_games(cube_sets: str) -> bool:
     cube_sets_arr = [cube_set.strip() for cube_set in cube_sets.split(';')]
 
     for cube_set in cube_sets_arr:
@@ -36,17 +36,15 @@ def find_impossible_games(cube_sets: str) -> bool:
                 or color == 'green' and int(amount) > MAX_GREEN
                 or color == 'blue' and int(amount) > MAX_BLUE
             ):
-                return True
+                return False
 
-
-
-    return False
+    return True
 
 
 def get_total(games: list[GameResultPart1]) -> int:
     total = 0
-    for game_id, impossible_game in games:
-        total += game_id if not impossible_game else 0
+    for game_id, possible_game in games:
+        total += game_id if possible_game else 0
 
     return total
 
@@ -83,9 +81,9 @@ def part1(input_data: list[str]) -> None:
     games: list[GameResultPart1] = list()
     for line in input_data:
         game_id, cube_sets = split_game_id_and_cube_sets(line)
-        impossible_game = find_impossible_games(cube_sets)
+        possible_game = find_possible_games(cube_sets)
 
-        games.append((game_id, impossible_game))
+        games.append((game_id, possible_game))
 
     total = get_total(games)
     print(total)
