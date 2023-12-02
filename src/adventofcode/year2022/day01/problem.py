@@ -3,7 +3,7 @@ import sys
 from adventofcode.utils import utils
 
 
-def store_calories_by_each_elf(calories_list: list[str]) -> dict:
+def store_calories_by_each_elf(calories_list: list[str]) -> dict[str, int]:
     i = 1
     elfs: dict[str, int] = dict()
 
@@ -35,7 +35,8 @@ def generate_calories_top_list(elfs: dict[str, int]) -> list[str]:
     return calories_leaderboard
 
 
-def get_top_n_elves(calories_top_list: list[str], top_n: int, elfs: dict[str, int]) -> int:
+def get_top_n_elves(calories_top_list: list[str], top_n: int,
+                    elfs: dict[str, int]) -> int:
     total = 0
 
     for i in range(0, top_n, 1):

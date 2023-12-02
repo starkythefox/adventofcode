@@ -15,7 +15,7 @@ def split_game_id_and_cube_sets(game: str) -> tuple[int, str]:
     aux, cube_sets = game.split(': ')
     game_id = int(aux.split(' ')[1])
 
-    return game_id, cube_sets;
+    return game_id, cube_sets
 
 
 def find_possible_games(cube_sets: str) -> bool:
@@ -57,13 +57,17 @@ def get_mininum_number_of_cubes(cube_sets: str) -> tuple[int, int, int]:
             amount, color = cube_color.split(' ')
 
             if color == 'red':
-                min_red_cubes = int(amount) if int(amount) > min_red_cubes else min_red_cubes
+                min_red_cubes = (int(amount) if int(amount) > min_red_cubes
+                                 else min_red_cubes)
             elif color == 'green':
-                min_green_cubes = int(amount) if int(amount) > min_green_cubes else min_green_cubes
+                min_green_cubes = (int(amount) if int(amount) > min_green_cubes
+                                   else min_green_cubes)
             elif color == 'blue':
-                min_blue_cubes = int(amount) if int(amount) > min_blue_cubes else min_blue_cubes
-    
+                min_blue_cubes = (int(amount) if int(amount) > min_blue_cubes
+                                  else min_blue_cubes)
+
     return min_red_cubes, min_green_cubes, min_blue_cubes
+
 
 def get_sum(games: list[GameResultPart2]) -> int:
     total = 0

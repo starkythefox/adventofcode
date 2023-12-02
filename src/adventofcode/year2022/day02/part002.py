@@ -66,7 +66,7 @@ def check_round_result(theirs: str, mine: str) -> int:
     return score
 
 
-def main(args: list[str]):
+def main(args: list[str]) -> None:
     cheatcodes = utils.readlines(args[0])
     total = 0
 
