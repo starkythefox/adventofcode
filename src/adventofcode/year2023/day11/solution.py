@@ -24,26 +24,17 @@ class Point:
 
 
 def parse_image(puzzle_input: list[str]) -> UniverseImage:
-    image = list()
-    for i, line in enumerate(puzzle_input):
-        row: ImageRow = list()
-        for j, char in enumerate(line):
-            if char == '#':
-                row.append(Point(j, i))
-            else:
-                row.append(None)
-
-        image.append(row)
-
-    return image
+    return [[Point(j, i) if char == '#' else None
+             for j, char in enumerate(line)]
+            for i, line in enumerate(puzzle_input)]
 
 
 def find_expanded_zones(image: UniverseImage) -> tuple[list[int],
                                                        list[int]]:
-    rows = [i for i, row in enumerate(image) if all(
-        point is None for point in row)]
-    columns = [j for j in range(len(image[0])) if all(
-        image[i][j] is None for i in range(len(image)))]
+    rows = [i for i, row in enumerate(image)
+            if all(point is None for point in row)]
+    columns = [j for j in range(len(image[0]))
+               if all(image[i][j] is None for i in range(len(image)))]
 
     return rows, columns
 
@@ -52,10 +43,9 @@ def get_all_points(image: UniverseImage) -> list[Point]:
     return [point for row in image for point in row if point is not None]
 
 
-def calc_shortest_distance(point_a: Point, point_b: Point,
-                           expanded_rows: list[int],
-                           expanded_columns: list[int],
-                           expansion_factor: int = 2) -> int:
+def calc_shortest_distance(
+        point_a: Point, point_b: Point, expanded_rows: list[int],
+        expanded_columns: list[int], expansion_factor: int = 2) -> int:
     distance = abs(point_b.x - point_a.x) + abs(point_b.y - point_a.y)
 
     min_x = min(point_a.x, point_b.x)
@@ -79,9 +69,8 @@ def part1(puzzle_input: list[str]) -> int:
     sum_distances = 0
     for i in range(0, len(points) - 1):
         for j in range(i + 1, len(points)):
-            sum_distances += calc_shortest_distance(points[i], points[j],
-                                                    expanded_rows,
-                                                    expanded_columns)
+            sum_distances += calc_shortest_distance(
+                    points[i], points[j], expanded_rows, expanded_columns)
 
     return sum_distances
 
@@ -94,10 +83,9 @@ def part2(puzzle_input: list[str]) -> int:
     sum_distances = 0
     for i in range(0, len(points) - 1):
         for j in range(i + 1, len(points)):
-            sum_distances += calc_shortest_distance(points[i], points[j],
-                                                    expanded_rows,
-                                                    expanded_columns,
-                                                    1000000)
+            sum_distances += calc_shortest_distance(
+                    points[i], points[j], expanded_rows, expanded_columns,
+                    1000000)
 
     return sum_distances
 
