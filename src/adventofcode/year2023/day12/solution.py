@@ -79,7 +79,14 @@ def part1(puzzle_input: list[str]) -> int:
 
 
 def part2(puzzle_input: list[str]) -> int:
-    return 0
+    condition_records = parse_records(puzzle_input)
+
+    total_arragements = 0
+    for record in condition_records:
+        total_arragements += calculate_arragements(
+                '?'.join([record[0]]*5), ','.join([record[1]]*5))
+
+    return total_arragements
 
 
 def main(args: list[str]) -> None:
