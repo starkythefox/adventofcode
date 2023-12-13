@@ -1,60 +1,71 @@
 # 19:04
 import sys
+
 from src.adventofcode.utils import utils
-import itertools
-from functools import reduce
+from itertools import groupby
+
+
+cache: dict[tuple, int] = dict()
 
 
 def parse_records(puzzle_input: list[str]) -> list[tuple[str, str]]:
     return [(row.split(' ')) for row in puzzle_input]
 
 
-def find_arrangements(springs_status: str, str_idx: int,
-                      groups: list[int], grp_idx: int) -> set[str]:
-    group = groups[grp_idx]
+def create_next_string(s: str, i: int) -> str:
+    first_char = (s[i] if len(s) > i else '')
 
-    arrangements = set()
-    for i in range(str_idx,
-                   len(springs_status) - reduce(lambda acc, x: acc + x,
-                                                groups[grp_idx+1:], 0)):
+    return (('.' if first_char == '?' else first_char)
+            + s[i+1:])
 
-        substr = springs_status[i:group+i]
-        if '.' in substr:
-            continue
 
-        aux = (springs_status[:i].replace('?', '.')
-               + substr.replace('?', '#')
-               + springs_status[group+i:])
+def is_damaged_group(springs: str, group: int) -> bool:
+    if (len(springs) >= group
+            and '.' not in springs[:group]):
 
-        aux2 = aux.replace('?', '.')
+        k, g = next(groupby('#' * group + create_next_string(springs, group)))
+        count = sum(1 for _ in g) if k == '#' else 0
 
-        if aux2 in arrangements:
-            continue
+        return count == group
 
-        damaged = [len(list(repeats))
-                   for status, repeats in itertools.groupby(aux2)
-                   if status == '#']
+    return False
 
-        if groups == damaged:
-            arrangements.add(aux2)
-            continue
 
-        if grp_idx >= len(damaged):
-            continue
+def find_arrangements(springs: str, groups: list[int]) -> int:
+    if ((len(springs) == 0 or all(c in ('?', '.') for c in springs))
+            and len(groups) == 0):
+        return 1
 
-        if grp_idx + 1 < len(groups) and groups[grp_idx] == damaged[grp_idx]:
-            arrangements.update(find_arrangements(aux, i + group, groups,
-                                                  grp_idx + 1))
+    if (len(springs) == 0 and len(groups) > 0 or
+            len(springs) > 0 and '#' in springs and len(groups) == 0):
+        return 0
 
-    return arrangements
+    if springs[0] == '.':
+        return find_arrangements(springs[1:], groups)
+
+    if springs[0] == '?':
+        return (find_arrangements(springs.replace('?', '#', 1), groups)
+                + find_arrangements(springs.replace('?', '.', 1),
+                                    groups))
+
+    if (springs, tuple(groups)) in cache:
+        return cache[(springs, tuple(groups))]
+
+    if is_damaged_group(springs, groups[0]):
+        res = find_arrangements(create_next_string(springs, groups[0]),
+                                groups[1:])
+        cache[(springs, tuple(groups))] = res
+        return res
+
+    return 0
 
 
 def calculate_arragements(springs_status: str, spring_groups: str) -> int:
     groups = [int(num) for num in spring_groups.split(',')]
 
-    arrangements = find_arrangements(springs_status, 0, groups, 0)
+    arrangements = find_arrangements(springs_status, groups)
 
-    return len(arrangements)
+    return arrangements
 
 
 def part1(puzzle_input: list[str]) -> int:
